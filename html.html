@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Protocolo Isabel</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A0A0A;
+  --bg2: #111111;
+  --bg3: #1A1A1A;
+  --bg4: #222222;
+  --border: #2A2A2A;
+  --neon: #39FF14;
+  --neon2: #2BC40F;
+  --neon-dim: rgba(57,255,20,0.12);
+  --neon-glow: 0 0 12px rgba(57,255,20,0.4);
+  --text: #F0F0F0;
+  --text2: #B0B0B0;
+  --text3: #707070;
+  --red: #FF4444;
+  --red-dim: rgba(255,68,68,0.12);
+  --gold: #FFB800;
+  --gold-dim: rgba(255,184,0,0.12);
+  --blue: #00D4FF;
+  --blue-dim: rgba(0,212,255,0.1);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+body {
+  background: var(--bg);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  padding-bottom: 100px;
+  font-size: 16px;
+}
+
+/* HEADER */
+.header {
+  background: var(--bg2);
+  padding: 40px 20px 28px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -80px; right: -80px;
+  width: 250px; height: 250px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(57,255,20,0.06) 0%, transparent 70%);
+}
+.header-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--neon);
+  margin-bottom: 8px;
+}
+.header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 56px;
+  color: var(--text);
+  letter-spacing: 2px;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.header h1 span { color: var(--neon); }
+.header-sub {
+  font-size: 14px;
+  color: var(--text3);
+  letter-spacing: 0.5px;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+  scrollbar-width: none;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: none;
+  padding: 16px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+.tab.active {
+  color: var(--neon);
+  border-bottom-color: var(--neon);
+}
+
+/* SECTIONS */
+.section { display: none; padding: 20px 16px; }
+.section.active { display: block; }
+
+/* ACCORDION */
+.acc {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.acc.open {
+  overflow: visible;
+}
+.acc-header {
+  display: flex;
+  align-items: center;
+  padding: 18px 18px;
+  cursor: pointer;
+  gap: 14px;
+  user-select: none;
+}
+.acc-header:active { background: var(--bg3); }
+.acc-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+}
+.acc-title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.acc-sub {
+  font-size: 13px;
+  color: var(--text3);
+  margin-top: 2px;
+  font-weight: 400;
+}
+.acc-chevron {
+  color: var(--text3);
+  font-size: 13px;
+  transition: transform 0.25s;
+  flex-shrink: 0;
+}
+.acc.open > .acc-header > .acc-chevron { transform: rotate(180deg); }
+.acc-body {
+  display: none;
+  padding: 0 18px 18px;
+  border-top: 1px solid var(--border);
+}
+.acc.open > .acc-body { display: block; }
+
+/* CARDS (dieta) */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 16px;
+  cursor: pointer;
+  gap: 12px;
+}
+.card-time {
+  background: var(--neon);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 20px;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+}
+.card-time.red { background: var(--red); }
+.card-time.gold { background: var(--gold); color: var(--bg); }
+.card-time.blue { background: var(--blue); color: var(--bg); }
+.card-name {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+.card-meta {
+  font-size: 12px;
+  color: var(--text3);
+  text-align: right;
+  line-height: 1.4;
+}
+.card-chevron {
+  color: var(--text3);
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+.card.open .card-chevron { transform: rotate(180deg); }
+.card-body {
+  display: none;
+  padding: 0 16px 16px;
+  border-top: 1px solid var(--border);
+}
+.card.open .card-body { display: block; }
+
+/* OPT */
+.opt-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 14px 0 8px;
+}
+.opt {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 6px;
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.opt.obrig {
+  background: var(--neon-dim);
+  border-color: var(--neon);
+  color: var(--text);
+}
+.badge-obrig {
+  display: inline-block;
+  background: var(--neon);
+  color: var(--bg);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 6px;
+  margin-right: 6px;
+}
+
+/* SUPL */
+.supl {
+  background: rgba(0,212,255,0.07);
+  border: 1px solid rgba(0,212,255,0.2);
+  border-radius: 12px;
+  padding: 13px;
+  margin-top: 12px;
+}
+.supl-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--blue);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.supl-item {
+  font-size: 14px;
+  color: #80E8FF;
+  padding: 4px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+.supl-item::before {
+  content: '›';
+  color: var(--blue);
+  font-size: 16px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ALERT / NOTE */
+.alert {
+  background: var(--red-dim);
+  border-left: 3px solid var(--red);
+  border-radius: 0 10px 10px 0;
+  padding: 11px 13px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #FF9999;
+  line-height: 1.6;
+}
+.note {
+  background: var(--gold-dim);
+  border-left: 3px solid var(--gold);
+  border-radius: 0 10px 10px 0;
+  padding: 11px 13px;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #FFD566;
+  line-height: 1.6;
+}
+
+/* SECTION TITLE */
+.sec-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  color: var(--neon);
+  letter-spacing: 2px;
+  margin: 22px 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+.sec-title:first-child { margin-top: 0; }
+
+/* SCHEDULE */
+.schedule {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.sch-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  gap: 14px;
+}
+.sch-item:last-child { border-bottom: none; }
+.sch-time {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--neon);
+  min-width: 48px;
+  letter-spacing: 1px;
+}
+.sch-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  flex-shrink: 0;
+}
+.sch-dot.hi { background: var(--neon); box-shadow: var(--neon-glow); }
+.sch-dot.red { background: var(--red); }
+.sch-dot.gold { background: var(--gold); }
+.sch-event {
+  font-size: 15px;
+  color: var(--text2);
+  flex: 1;
+  line-height: 1.5;
+}
+.sch-event strong { color: var(--text); }
+.sch-event.hi { color: var(--neon); font-weight: 600; }
+.sch-event.red { color: var(--red); font-weight: 600; }
+
+/* INFO BLOCK */
+.info-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+.info-title {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.info-row:last-child { border-bottom: none; padding-bottom: 0; }
+.info-row-icon { color: var(--neon); flex-shrink: 0; font-size: 16px; }
+
+/* GOALS */
+.goals-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.goal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 12px;
+  text-align: center;
+}
+.goal-measure {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+.goal-current {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 30px;
+  color: var(--text);
+  letter-spacing: 1px;
+}
+.goal-target {
+  font-size: 13px;
+  color: var(--neon);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl th {
+  background: var(--neon);
+  color: var(--bg);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 10px 12px;
+  text-align: left;
+  letter-spacing: 0.5px;
+}
+.tbl th:first-child { border-radius: 8px 0 0 0; }
+.tbl th:last-child { border-radius: 0 8px 0 0; }
+.tbl td {
+  font-size: 14px;
+  padding: 10px 12px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.tbl tr:nth-child(even) td { background: var(--bg3); }
+.tbl tr:last-child td { border-bottom: none; }
+.tbl td:first-child { font-weight: 600; color: var(--neon); }
+
+/* WEEK TABLE */
+.week-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+.week-table th {
+  background: var(--bg3);
+  color: var(--text3);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 10px 10px;
+  text-align: left;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.week-table td {
+  padding: 12px 10px;
+  font-size: 14px;
+  color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.5;
+}
+.week-table td:first-child { color: var(--neon); font-weight: 700; font-size: 15px; }
+.week-table tr:last-child td { border-bottom: none; }
+
+/* EXERCISE (new clean style) */
+.ex-row {
+  display: flex;
+  align-items: center;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  gap: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.ex-row:active { border-color: var(--neon); }
+.ex-row-info { flex: 1; }
+.ex-row-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.ex-row-sets {
+  font-size: 13px;
+  color: var(--neon);
+  font-weight: 600;
+}
+.ex-row-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ex-row-input input {
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 6px 10px;
+  width: 80px;
+  text-align: center;
+  outline: none;
+}
+.ex-row-input input:focus {
+  border-color: var(--neon);
+}
+.ex-row-input label {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.ex-row-save {
+  background: var(--neon);
+  color: var(--bg);
+  border: none;
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+.ex-row-save:active { opacity: 0.8; }
+.ex-row-saved {
+  font-size: 11px;
+  color: var(--neon);
+  margin-top: 4px;
+  display: none;
+}
+
+/* MODAL */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 500;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+.modal-overlay.open { display: flex; align-items: flex-start; justify-content: center; }
+.modal {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 480px;
+  margin: auto;
+}
+.modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 18px;
+  gap: 12px;
+}
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+}
+.modal-close {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  color: var(--text3);
+  font-size: 18px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.modal-section {
+  margin-bottom: 14px;
+}
+.modal-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--neon);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.modal-content {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+}
+.modal-tag {
+  display: inline-block;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--text2);
+  margin: 3px 3px 3px 0;
+}
+.modal-tag.warm { border-color: #555; color: var(--text3); }
+.modal-tag.pre { border-color: var(--gold); color: var(--gold); }
+.modal-tag.main { border-color: var(--neon); color: var(--neon); font-weight: 600; }
+
+/* SUBST CALCULATOR */
+.calc-wrap {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.calc-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  color: var(--neon);
+  letter-spacing: 2px;
+  margin-bottom: 16px;
+}
+.calc-group {
+  margin-bottom: 14px;
+}
+.calc-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text3);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.calc-select {
+  width: 100%;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 12px 14px;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23707070' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+.calc-select:focus { border-color: var(--neon); }
+.calc-qty {
+  width: 100%;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  font-size: 16px;
+  font-family: 'DM Sans', sans-serif;
+  padding: 12px 14px;
+  outline: none;
+}
+.calc-qty:focus { border-color: var(--neon); }
+.calc-btn {
+  width: 100%;
+  background: var(--neon);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+.calc-btn:active { opacity: 0.85; }
+.calc-results {
+  margin-top: 16px;
+}
+.calc-result-item {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.calc-result-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.calc-result-qty {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  color: var(--neon);
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+.calc-empty {
+  text-align: center;
+  color: var(--text3);
+  font-size: 14px;
+  padding: 20px 0;
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-label">✦ Protocolo Completo</div>
+  <h1>ISABEL <span>.</span></h1>
+  <div class="header-sub">Atualizado Jun/2026</div>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('dieta', this)">🍽 Dieta</div>
+  <div class="tab" onclick="showTab('treino', this)">🏋️ Treino</div>
+  <div class="tab" onclick="showTab('metas', this)">🎯 Metas</div>
+  <div class="tab" onclick="showTab('guias', this)">📋 Guias</div>
+  <div class="tab" onclick="showTab('horarios', this)">⏰ Horários</div>
+</div>
+
+<!-- ===== DIETA ===== -->
+<div id="tab-dieta" class="section active">
+
+  <!-- MUSCULAÇÃO -->
+  <div class="sch-item" style="background:var(--neon-dim); border-radius:12px; margin-bottom:12px; border:1px solid rgba(57,255,20,0.2);">
+    <div class="sch-time">06H00</div>
+    <div class="sch-dot hi"></div>
+    <div class="sch-event hi">🏋️ TREINO MUSCULAÇÃO</div>
+  </div>
+
+  <!-- R1 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">05H00</div>
+      <div class="card-name">Pré-treino</div>
+      <div class="card-meta">~20g prot<br>~200 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Escolha 1 opção</div>
+      <div class="opt"><strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana pequena</div>
+      <div class="opt"><strong>B:</strong> 1 fatia pão integral + 1 col. pasta de amendoim + café preto</div>
+      <div class="opt"><strong>C:</strong> 1 iogurte natural desnatado + 1 col. aveia + café preto</div>
+      <div class="alert">⚡ <strong>Sem gordura aqui.</strong> Pré-treino leve — gordura pesa no treino. Volume máx 150g. Sem suplementos.</div>
+    </div>
+  </div>
+
+  <!-- R2 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">07H15</div>
+      <div class="card-name">Pós-treino <span class="badge-obrig">obrigatório</span></div>
+      <div class="card-meta">~28g prot<br>~270 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Escolha 1 opção</div>
+      <div class="opt obrig"><span class="badge-obrig">⭐ Melhor</span> <strong>A:</strong> 1 scoop whey em leite sem lactose + 1 banana média</div>
+      <div class="opt"><strong>B:</strong> 3 claras mexidas + 1 gema + 1 fatia pão branco + 1 fruta</div>
+      <div class="opt"><strong>C:</strong> 150g frango desfiado + 1 fatia pão branco + tomate</div>
+      <div class="opt"><strong>D:</strong> 1 scoop whey + suco de uva natural (200ml) ou leite sem lactose</div>
+      <div class="opt"><strong>E:</strong> 150g atum + 1 banana + 4 biscoitos de arroz</div>
+      <div class="supl">
+        <div class="supl-title">💊 Suplementação — 07h15</div>
+        <div class="supl-item">DUX Multivitamínico — 1 cápsula</div>
+        <div class="supl-item">Ômega 3 — 2 cápsulas</div>
+        <div class="supl-item">Cardo Mariano — 2 cápsulas (30 dias → depois 1)</div>
+        <div class="supl-item">Vitamina D3 — 5 gotas</div>
+        <div class="supl-item">Vitamina K2 — 1 cápsula</div>
+        <div class="supl-item">Própolis verde — dose da embalagem</div>
+        <div class="supl-item">Creatina — 5g em água ou suco</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R3 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">10H00</div>
+      <div class="card-name">Lanche manhã</div>
+      <div class="card-meta">~12g prot<br>~175 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Escolha 1 opção</div>
+      <div class="opt"><strong>A:</strong> 1 fruta + 2 castanhas do pará + 1-2 quadradinhos chocolate 70%+</div>
+      <div class="opt"><strong>B:</strong> 1 fruta + 1 col. pasta de amendoim</div>
+      <div class="opt"><strong>C:</strong> 1 fruta + 30g cottage</div>
+      <div class="opt"><strong>D:</strong> 1 fruta + 2 ovos cozidos</div>
+      <div class="opt"><strong>E:</strong> Tapioca pequena recheada com cottage</div>
+    </div>
+  </div>
+
+  <!-- R4 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">12H00</div>
+      <div class="card-name">Almoço</div>
+      <div class="card-meta">~33g prot<br>~320 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Proteína — 110-120g cozida</div>
+      <div class="opt obrig"><span class="badge-obrig">⭐ Terça e Quinta</span> FÍGADO BOVINO ACEBOLADO — melhor fonte de ferro</div>
+      <div class="opt">Patinho / Tilápia / Sobrecoxa sem pele / Atum / Frango peito</div>
+      <div class="alert">⚠️ Dias de fígado (terça e quinta): colocar no <strong>jantar</strong>, não no almoço. Cálcio do almoço compete com o ferro.</div>
+      <div class="opt-label">Carboidrato — 60-70g</div>
+      <div class="opt">Arroz branco ou integral (3 col.) / Batata doce / Macarrão / Batata inglesa</div>
+      <div class="opt-label">Vegetais — sempre — à vontade</div>
+      <div class="opt">Tomate + pepino + cenoura ralada / Abobrinha / Beterraba / Chuchu</div>
+      <div class="opt-label">Gordura</div>
+      <div class="opt">1 fio de azeite extravirgem</div>
+      <div class="supl">
+        <div class="supl-title">💊 Suplementação — 12h00</div>
+        <div class="supl-item">Citrato de cálcio — 600mg (1ª dose)</div>
+        <div class="supl-item">Probiótico 25bi — 1 cápsula</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R5 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">15H00</div>
+      <div class="card-name">Lanche tarde</div>
+      <div class="card-meta">~15g prot<br>~180 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Escolha 1 opção</div>
+      <div class="opt"><strong>A:</strong> Torradinha integral + patê de sardinha + 1 fruta leve</div>
+      <div class="opt"><strong>B:</strong> 1 ovo cozido + atum (50g) + 1 fruta</div>
+      <div class="opt"><strong>C:</strong> 1 banana + 2 ovos cozidos</div>
+      <div class="opt"><strong>D:</strong> 30g cottage + 1 fruta + 4 amêndoas</div>
+      <div class="opt"><strong>E:</strong> 3 fatias peito de peru + 1 fruta + 2 castanhas</div>
+    </div>
+  </div>
+
+  <!-- CORRIDA / TREINO TARDE -->
+  <div class="sch-item" style="background:var(--red-dim); border-radius:12px; margin-bottom:12px; border:1px solid rgba(255,68,68,0.2);">
+    <div class="sch-time" style="color:var(--red);">17H00</div>
+    <div class="sch-dot red"></div>
+    <div class="sch-event red">🏃 CORRIDA (ter/sex/sáb) · ALONGAMENTO (seg/qua/qui)</div>
+  </div>
+
+  <!-- R6 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">18H00</div>
+      <div class="card-name">Jantar / Pós-corrida</div>
+      <div class="card-meta">~32g prot<br>~310 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="opt-label">Proteína — 110-120g — digestão rápida</div>
+      <div class="opt">Tilápia / Frango grelhado / Atum / 3 claras + 1 gema / Carne moída magra</div>
+      <div class="opt-label">Carboidrato — 70-80g (dias com corrida)</div>
+      <div class="opt">Arroz branco / Batata doce / Batata inglesa</div>
+      <div class="note">🏃 <strong>Dias sem corrida:</strong> reduzir carbo para 50-60g nesta refeição.</div>
+      <div class="supl">
+        <div class="supl-title">💊 Suplementação — 18h50 (50min após jantar)</div>
+        <div class="supl-item">Citrato de cálcio — 600mg (2ª dose)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- R7 -->
+  <div class="card" onclick="toggleCard(this)">
+    <div class="card-header">
+      <div class="card-time">21H00</div>
+      <div class="card-name">Ceia leve</div>
+      <div class="card-meta">~20g prot<br>~130 kcal</div>
+      <div class="card-chevron">▼</div>
+    </div>
+    <div class="card-body">
+      <div class="note">ℹ️ Dispensar se jantou depois das 19h30. ZMA e Melatonina fazem mesmo sem a ceia.</div>
+      <div class="opt-label">Escolha 1 opção</div>
+      <div class="opt"><strong>A:</strong> 3 ovos mexidos com ervas + 1 fatia queijo branco</div>
+      <div class="opt"><strong>B:</strong> 2 ovos cozidos + 3 fatias peito de peru</div>
+      <div class="opt"><strong>C:</strong> Omelete de 2 ovos + tomate + temperos</div>
+      <div class="opt"><strong>D:</strong> 100g frango desfiado + 1 fio azeite + temperos</div>
+      <div class="opt"><strong>E:</strong> 2 ovos + 1 sardinha em água escorrida</div>
+      <div class="supl">
+        <div class="supl-title">💊 Suplementação — 21h30</div>
+        <div class="supl-item">ZMA Power — 2 cápsulas (intervalo do cálcio ok ✓)</div>
+        <div class="supl-item">Melatonina Duo — 1 cápsula</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TREINO ===== -->
+<div id="tab-treino" class="section">
+
+  <!-- ACCORDION 1: TREINOS -->
+  <div class="acc" id="acc-treinos">
+    <div class="acc-header" onclick="toggleAcc('acc-treinos')">
+      <div class="acc-icon">🏋️</div>
+      <div>
+        <div class="acc-title">Treinos da Semana</div>
+        <div class="acc-sub">A · B · C · D · E — Segunda a Sexta</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px; padding-left:0; padding-right:0;">
+
+      <!-- TREINO A -->
+      <div class="acc" id="acc-a" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-a')">
+          <div class="card-time" style="font-size:13px;">SEG</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Treino A · Glúteo + Posterior</div>
+            <div class="acc-sub">6 exercícios · Força máxima</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body">
+          <div class="note" style="margin:10px 0 14px;">🎯 Força máxima no glúteo. Sessão mais pesada da semana.</div>
+
+          <div class="ex-row" onclick="openModal('Cadeira Abdutora','Glúteo médio · largura do quadril','4 séries · 15-20 reps','Aquecimento: 1x15 · 20kg | Série principal: 4x15-20 · 30-35kg','Devagar na volta — contração no topo de cada repetição.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Cadeira Abdutora</div>
+              <div class="ex-row-sets">4 séries · 15-20 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Carga</label>
+                <input type="text" placeholder="kg" id="carga-A1" onchange="markSaved('A1')">
+                <div class="ex-row-saved" id="saved-A1">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A1')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Elevação Pélvica com Barra','Glúteo máximo','4 séries · 6-8 reps','Aquecimento: 1x12 · 20kg CL | Pré: 1x6 · 30kg CL | Série principal: 4x6-8 · 40-50kg CL','Costas no banco, pausa 1 seg contraindo glúteo no topo.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Elevação Pélvica com Barra</div>
+              <div class="ex-row-sets">4 séries · 6-8 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Carga</label>
+                <input type="text" placeholder="kg" id="carga-A2" onchange="markSaved('A2')">
+                <div class="ex-row-saved" id="saved-A2">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A2')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Stiff Romeno com Halter','Glúteo + posterior em alongamento','4 séries · 8-10 reps','Aquecimento: 1x10 · 14kg CL | Série principal: 4x8-10 · 18-22kg CL','Halter desce pela frente da perna, sente o alongamento, sobe contraindo glúteo.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Stiff Romeno com Halter</div>
+              <div class="ex-row-sets">4 séries · 8-10 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Carga</label>
+                <input type="text" placeholder="kg" id="carga-A3" onchange="markSaved('A3')">
+                <div class="ex-row-saved" id="saved-A3">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A3')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Búlgaro com Halter','Glúteo em alongamento','3 séries · 8-10 reps','Aquecimento: 1x10 · 4kg CL | Pré: 1x6 · 7kg CL | Série principal: 3x8-10 · 9-12kg CL','Pé traseiro no banco, desce até coxa paralela ao chão.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Búlgaro com Halter</div>
+              <div class="ex-row-sets">3 séries · 8-10 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Carga</label>
+                <input type="text" placeholder="kg" id="carga-A4" onchange="markSaved('A4')">
+                <div class="ex-row-saved" id="saved-A4">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A4')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Mesa Flexora','Posterior da coxa','3 séries · 8-10 reps','Aquecimento: 1x10 · 15kg | Série principal: 3x8-10 · 20-25kg','Amplitude completa — controla a descida.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Mesa Flexora</div>
+              <div class="ex-row-sets">3 séries · 8-10 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Carga</label>
+                <input type="text" placeholder="kg" id="carga-A5" onchange="markSaved('A5')">
+                <div class="ex-row-saved" id="saved-A5">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A5')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Abdômen — Prancha Lateral','Oblíquos · cintura','3 séries · 40-60 seg cada lado','Série: 3x 40-60 segundos de cada lado','Corpo reto, quadril não afunda. Aumenta o tempo progressivamente.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Abdômen — Prancha Lateral</div>
+              <div class="ex-row-sets">3 séries · 40-60 seg/lado</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div>
+                <label>Tempo</label>
+                <input type="text" placeholder="seg" id="carga-A6" onchange="markSaved('A6')">
+                <div class="ex-row-saved" id="saved-A6">✓ Salvo</div>
+              </div>
+              <button class="ex-row-save" onclick="saveLoad('A6')">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TREINO B -->
+      <div class="acc" id="acc-b" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-b')">
+          <div class="card-time" style="font-size:13px;">TER</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Treino B · Costas + Bíceps + Ombro</div>
+            <div class="acc-sub">9 exercícios · V nas costas</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body">
+          <div class="note" style="margin:10px 0 14px;">🎯 Largura das costas em V + volume de ombro = ilusão de cintura mais fina.</div>
+
+          <div class="ex-row" onclick="openModal('Puxador Frontal Pegada Aberta','Largura das costas','4 séries · 8-10 reps','Aquecimento: 1x10 · 15kg | Série principal: 4x8-10 · 25-32kg','Pegada bem aberta, puxa até o queixo, cotovelos apontam para baixo e fora.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Puxador Frontal Pegada Aberta</div>
+              <div class="ex-row-sets">4 séries · 8-10 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B1" onchange="markSaved('B1')"><div class="ex-row-saved" id="saved-B1">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B1')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Remada Unilateral com Halter','Costas · espessura','4 séries · 8-10 reps','Aquecimento: 1x10 · 8kg CL | Série principal: 4x8-10 · 12-16kg CL','Joelho e mão no banco, costas paralelas, puxa até o quadril contraindo escápula.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Remada Unilateral com Halter</div>
+              <div class="ex-row-sets">4 séries · 8-10 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B2" onchange="markSaved('B2')"><div class="ex-row-saved" id="saved-B2">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B2')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Remada Baixa Polia','Costas · fechamento das escápulas','3 séries · 10-12 reps','Aquecimento: 1x10 · 15kg | Série principal: 3x10-12 · 25-30kg','Costas retas, traz o triângulo até a barriga, cotovelos colados.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Remada Baixa Polia</div>
+              <div class="ex-row-sets">3 séries · 10-12 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B3" onchange="markSaved('B3')"><div class="ex-row-saved" id="saved-B3">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B3')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Elevação Lateral com Halter','Ombro lateral · afina cintura','4 séries · 12-15 reps','Aquecimento: 1x12 · 3kg CL | Série principal: 4x12-15 · 4-6kg CL','Cotovelo levemente flexionado, eleva até altura do ombro, desce contando 3 segundos.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Elevação Lateral com Halter</div>
+              <div class="ex-row-sets">4 séries · 12-15 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B4" onchange="markSaved('B4')"><div class="ex-row-saved" id="saved-B4">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B4')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Elevação Lateral na Polia Baixa','Tensão constante no ombro','3 séries · 12-15 reps','Série principal: 3x12-15 · leve','Polia no tornozelo, braço cruzando o corpo, eleva lateralmente.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Elevação Lateral na Polia Baixa</div>
+              <div class="ex-row-sets">3 séries · 12-15 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B5" onchange="markSaved('B5')"><div class="ex-row-saved" id="saved-B5">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B5')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Voador Inverso com Halter','Ombro posterior · postura','3 séries · 12-15 reps','Aquecimento: 1x10 · 2kg CL | Série principal: 3x12-15 · 4-6kg CL','Tronco inclinado para frente, abre os braços como asas.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Voador Inverso com Halter</div>
+              <div class="ex-row-sets">3 séries · 12-15 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B6" onchange="markSaved('B6')"><div class="ex-row-saved" id="saved-B6">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B6')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Rosca Direta com Halter','Bíceps','3 séries · 10-12 reps','Aquecimento: 1x10 · 4kg CL | Série principal: 3x10-12 · 6-8kg CL','Cotovelo fixo, contrai no topo, desce controlado.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Rosca Direta com Halter</div>
+              <div class="ex-row-sets">3 séries · 10-12 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B7" onchange="markSaved('B7')"><div class="ex-row-saved" id="saved-B7">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B7')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Rosca Martelo','Bíceps braquial + antebraço','2 séries · 10-12 reps','Série principal: 2x10-12 · 6-8kg CL','Polegar aponta para cima, movimento neutro — mais grossura no braço.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Rosca Martelo</div>
+              <div class="ex-row-sets">2 séries · 10-12 reps</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Carga</label><input type="text" placeholder="kg" id="carga-B8" onchange="markSaved('B8')"><div class="ex-row-saved" id="saved-B8">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B8')">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ex-row" onclick="openModal('Abdômen — Abdominal Bicicleta','Reto + oblíquos','3 séries · 20 reps alternadas','Série: 3x 20 reps alternadas','Cotovelo ao joelho oposto, não torce o pescoço.')">
+            <div class="ex-row-info">
+              <div class="ex-row-name">Abdômen — Abdominal Bicicleta</div>
+              <div class="ex-row-sets">3 séries · 20 reps alternadas</div>
+            </div>
+            <div class="ex-row-input" onclick="event.stopPropagation()">
+              <div><label>Tempo</label><input type="text" placeholder="seg" id="carga-B9" onchange="markSaved('B9')"><div class="ex-row-saved" id="saved-B9">✓ Salvo</div></div>
+              <button class="ex-row-save" onclick="saveLoad('B9')">Salvar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TREINO C -->
+      <div class="acc" id="acc-c" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-c')">
+          <div class="card-time" style="font-size:13px;">QUA</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Treino C · Quadríceps + Panturrilha</div>
+            <div class="acc-sub">7 exercícios · Coxa proporcional</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body">
+          <div class="note" style="margin:10px 0 14px;">🎯 Coxa proporcional e definida — volume suficiente sem exagero.</div>
+
+          <div class="ex-row" onclick="openModal('Cadeira Extensora','Quadríceps','3 séries · 10-12 reps','Aquecimento: 1x15 · 20kg | Série principal: 3x10-12 · 50-65kg','Pausa 1 segundo com perna estendida em cada rep.')">
+            <div class="ex-row-info"><div class="ex-row-name">Cadeira Extensora</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C1" onchange="markSaved('C1')"><div class="ex-row-saved" id="saved-C1">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C1')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Leg Press','Quadríceps + Glúteo','4 séries · 8-10 reps','Aquecimento: 1x12 · leve | Pré: 1x8 · moderado | Série principal: 4x8-10 · progressivo','Pés na largura do quadril, desce até 90 graus, joelhos não fecham.')">
+            <div class="ex-row-info"><div class="ex-row-name">Leg Press</div><div class="ex-row-sets">4 séries · 8-10 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C2" onchange="markSaved('C2')"><div class="ex-row-saved" id="saved-C2">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C2')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Agachamento Hack','Quadríceps','3 séries · 8-10 reps','Aquecimento: 1x10 · sem carga | Série principal: 3x8-10 · 10-15kg CL','Pés na largura dos ombros, desce controlado, mantém joelhos alinhados.')">
+            <div class="ex-row-info"><div class="ex-row-name">Agachamento Hack</div><div class="ex-row-sets">3 séries · 8-10 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C3" onchange="markSaved('C3')"><div class="ex-row-saved" id="saved-C3">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C3')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Avanço com Halter','Glúteo + Quadríceps','3 séries · 20-30 passos','Série: 3x 20-30 passos · 5-7kg CL','Passos largos, joelho traseiro quase toca o chão.')">
+            <div class="ex-row-info"><div class="ex-row-name">Avanço com Halter</div><div class="ex-row-sets">3 séries · 20-30 passos</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C4" onchange="markSaved('C4')"><div class="ex-row-saved" id="saved-C4">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C4')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Cadeira Adutora','Face interna da coxa','3 séries · 15-20 reps','Série: 3x15-20 · 15-20kg','Devagar na volta — não deixa as pernas abrirem sem controle.')">
+            <div class="ex-row-info"><div class="ex-row-name">Cadeira Adutora</div><div class="ex-row-sets">3 séries · 15-20 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C5" onchange="markSaved('C5')"><div class="ex-row-saved" id="saved-C5">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C5')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Panturrilha no Smith','Panturrilha','4 séries · 15-20 reps','Série: 4x15-20 · 10-15kg CL','Amplitude completa, pausa 1 segundo no topo.')">
+            <div class="ex-row-info"><div class="ex-row-name">Panturrilha no Smith</div><div class="ex-row-sets">4 séries · 15-20 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-C6" onchange="markSaved('C6')"><div class="ex-row-saved" id="saved-C6">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C6')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Abdômen — Remador','Core','3 séries · até a falha','Série: 3x até a falha','Costas retas, puxa os joelhos ao peito controlando o movimento.')">
+            <div class="ex-row-info"><div class="ex-row-name">Abdômen — Remador</div><div class="ex-row-sets">3 séries · até a falha</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Tempo</label><input type="text" placeholder="seg" id="carga-C7" onchange="markSaved('C7')"><div class="ex-row-saved" id="saved-C7">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('C7')">Salvar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TREINO D -->
+      <div class="acc" id="acc-d" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-d')">
+          <div class="card-time" style="font-size:13px;">QUI</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Treino D · Glúteo + Posterior + Ombro</div>
+            <div class="acc-sub">7 exercícios · 2ª dose glúteo</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body">
+          <div class="note" style="margin:10px 0 14px;">🎯 2ª dose de glúteo — contração máxima e glúteo médio. 2ª dose de ombro.</div>
+
+          <div class="ex-row" onclick="openModal('Glúteo na Polia','Contração máxima','4 séries · 10-12 reps','Aquecimento: 1x10 · 15kg | Pré: 1x6 · 20kg | Série principal: 4x10-12 · 25-30kg','Tornozelo na polia, coice para trás e cima, contrai glúteo no topo, volta devagar.')">
+            <div class="ex-row-info"><div class="ex-row-name">Glúteo na Polia</div><div class="ex-row-sets">4 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D1" onchange="markSaved('D1')"><div class="ex-row-saved" id="saved-D1">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D1')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Agachamento Sumo com Halter','Glúteo + adutores','3 séries · 8-10 reps','Aquecimento: 1x12 · 12kg | Série principal: 3x8-10 · 20-26kg','Pés bem abertos e voltados para fora, desce até coxas paralelas.')">
+            <div class="ex-row-info"><div class="ex-row-name">Agachamento Sumo com Halter</div><div class="ex-row-sets">3 séries · 8-10 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D2" onchange="markSaved('D2')"><div class="ex-row-saved" id="saved-D2">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D2')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Cadeira Abdutora','Glúteo médio · 2ª dose','4 séries · 15-20 reps','Série: 4x15-20 · 30-35kg','Devagar na volta — contração no topo de cada rep.')">
+            <div class="ex-row-info"><div class="ex-row-name">Cadeira Abdutora</div><div class="ex-row-sets">4 séries · 15-20 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D3" onchange="markSaved('D3')"><div class="ex-row-saved" id="saved-D3">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D3')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Flexora em Pé','Posterior unilateral','3 séries · 8-10 reps','Aquecimento: 1x15 · 15kg CL | Série principal: 3x8-10 · 22-28kg CL','Movimento completo — amplitude total no unilateral.')">
+            <div class="ex-row-info"><div class="ex-row-name">Flexora em Pé</div><div class="ex-row-sets">3 séries · 8-10 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D4" onchange="markSaved('D4')"><div class="ex-row-saved" id="saved-D4">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D4')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Elevação Pélvica Unilateral','Glúteo médio · corrige assimetrias','3 séries · 12-15 reps/lado','Série: 3x12-15 cada lado · 20-25kg','Um pé fora do banco — trabalha assimetria.')">
+            <div class="ex-row-info"><div class="ex-row-name">Elevação Pélvica Unilateral</div><div class="ex-row-sets">3 séries · 12-15 reps/lado</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D5" onchange="markSaved('D5')"><div class="ex-row-saved" id="saved-D5">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D5')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Elevação Lateral com Halter','Ombro · 2ª dose','4 séries · 12-15 reps','Série: 4x12-15 · 4-6kg CL','Descida lenta 3 segundos — sempre.')">
+            <div class="ex-row-info"><div class="ex-row-name">Elevação Lateral com Halter</div><div class="ex-row-sets">4 séries · 12-15 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-D6" onchange="markSaved('D6')"><div class="ex-row-saved" id="saved-D6">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D6')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Abdômen — Prancha Isométrica','Core','3 séries · até a falha','Série: 3x até a falha','Cotovelos no chão, corpo reto como tábua — não deixa o quadril subir.')">
+            <div class="ex-row-info"><div class="ex-row-name">Abdômen — Prancha Isométrica</div><div class="ex-row-sets">3 séries · até a falha</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Tempo</label><input type="text" placeholder="seg" id="carga-D7" onchange="markSaved('D7')"><div class="ex-row-saved" id="saved-D7">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('D7')">Salvar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TREINO E -->
+      <div class="acc" id="acc-e" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-e')">
+          <div class="card-time" style="font-size:13px;">SEX</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Treino E · Peito + Tríceps + Ombro</div>
+            <div class="acc-sub">8 exercícios · Upper + ombro</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body">
+          <div class="note" style="margin:10px 0 14px;">🎯 Upper completo. 3ª dose de ombro lateral da semana.</div>
+
+          <div class="ex-row" onclick="openModal('Peck Deck — Voador na Máquina','Peito','3 séries · 10-12 reps','Aquecimento: 1x12 · 15kg | Série principal: 3x10-12 · 20-25kg','Fecha na frente contraindo o peito, volta devagar.')">
+            <div class="ex-row-info"><div class="ex-row-name">Peck Deck — Voador na Máquina</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E1" onchange="markSaved('E1')"><div class="ex-row-saved" id="saved-E1">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E1')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Supino Halter — Banco Inclinado','Peito superior','3 séries · 8-10 reps','Aquecimento: 1x10 · 5kg CL | Série principal: 3x8-10 · 8-12kg CL','Halter desce até o peito, cotovelos a 45° do corpo.')">
+            <div class="ex-row-info"><div class="ex-row-name">Supino Halter — Banco Inclinado</div><div class="ex-row-sets">3 séries · 8-10 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E2" onchange="markSaved('E2')"><div class="ex-row-saved" id="saved-E2">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E2')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Desenvolvimento com Halter','Ombro · reintroduzido','3 séries · 10-12 reps','Aquecimento: 1x10 · 3kg CL | Série principal: 3x10-12 · 5-7kg CL','⚠️ Se sentir dor — reduz amplitude antes de reduzir carga.')">
+            <div class="ex-row-info"><div class="ex-row-name">Desenvolvimento com Halter</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E3" onchange="markSaved('E3')"><div class="ex-row-saved" id="saved-E3">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E3')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Elevação Lateral com Halter','Ombro · 3ª dose','4 séries · 12-15 reps','Série: 4x12-15 · 4-6kg CL','Descida lenta 3 segundos — sempre.')">
+            <div class="ex-row-info"><div class="ex-row-name">Elevação Lateral com Halter</div><div class="ex-row-sets">4 séries · 12-15 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E4" onchange="markSaved('E4')"><div class="ex-row-saved" id="saved-E4">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E4')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Tríceps Polia Alta — Barra Reta','Tríceps','3 séries · 10-12 reps','Aquecimento: 1x10 · 10kg | Série principal: 3x10-12 · 15-20kg','Cotovelos fixos ao lado do corpo, estende totalmente.')">
+            <div class="ex-row-info"><div class="ex-row-name">Tríceps Polia Alta — Barra Reta</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E5" onchange="markSaved('E5')"><div class="ex-row-saved" id="saved-E5">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E5')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Tríceps Polia Alta — Corda','Definição externa do braço','3 séries · 10-12 reps','Série: 3x10-12 · 12-15kg','Abre a corda para os lados no final do movimento.')">
+            <div class="ex-row-info"><div class="ex-row-name">Tríceps Polia Alta — Corda</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E6" onchange="markSaved('E6')"><div class="ex-row-saved" id="saved-E6">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E6')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Rosca Direta com Halter','Bíceps','3 séries · 10-12 reps','Aquecimento: 1x10 · 4kg CL | Série principal: 3x10-12 · 6-8kg CL','Cotovelo fixo, contrai no topo, desce controlado.')">
+            <div class="ex-row-info"><div class="ex-row-name">Rosca Direta com Halter</div><div class="ex-row-sets">3 séries · 10-12 reps</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Carga</label><input type="text" placeholder="kg" id="carga-E7" onchange="markSaved('E7')"><div class="ex-row-saved" id="saved-E7">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E7')">Salvar</button></div>
+          </div>
+          <div class="ex-row" onclick="openModal('Abdômen — Canivete','Core','3 séries · até a falha','Série: 3x até a falha','Deitada, eleva pernas e tronco ao mesmo tempo contraindo o abdômen.')">
+            <div class="ex-row-info"><div class="ex-row-name">Abdômen — Canivete</div><div class="ex-row-sets">3 séries · até a falha</div></div>
+            <div class="ex-row-input" onclick="event.stopPropagation()"><div><label>Tempo</label><input type="text" placeholder="seg" id="carga-E8" onchange="markSaved('E8')"><div class="ex-row-saved" id="saved-E8">✓ Salvo</div></div><button class="ex-row-save" onclick="saveLoad('E8')">Salvar</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ACCORDION 2: SEMANA DE TREINO -->
+  <div class="acc" id="acc-semana">
+    <div class="acc-header" onclick="toggleAcc('acc-semana')">
+      <div class="acc-icon">📅</div>
+      <div>
+        <div class="acc-title">Semana de Treino</div>
+        <div class="acc-sub">Grupos musculares por dia</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <table class="week-table">
+        <tr><th>Dia</th><th>Treino 06h</th><th>17h</th></tr>
+        <tr><td>SEG</td><td>Glúteo + Posterior</td><td>Alongamento 20min</td></tr>
+        <tr><td>TER</td><td>Costas + Bíceps + Ombro</td><td>Corrida 30-35min + Along.</td></tr>
+        <tr><td>QUA</td><td>Quadríceps + Panturrilha</td><td>Alongamento 20min</td></tr>
+        <tr><td>QUI</td><td>Glúteo + Posterior + Ombro</td><td>Alongamento 20min</td></tr>
+        <tr><td>SEX</td><td>Peito + Tríceps + Ombro</td><td>Corrida 30-35min + Along.</td></tr>
+        <tr><td>SÁB</td><td>—</td><td>Corrida 35-40min + Along.</td></tr>
+        <tr><td>DOM</td><td>—</td><td>Off ou corrida leve</td></tr>
+      </table>
+      <div class="note" style="margin-top:4px;">💪 <strong>Progressão:</strong> quando atingir o limite superior das reps com boa execução em todas as séries → aumenta carga. Descida sempre 3 segundos.</div>
+    </div>
+  </div>
+
+  <!-- ACCORDION 3: VOLUME SEMANAL -->
+  <div class="acc" id="acc-volume">
+    <div class="acc-header" onclick="toggleAcc('acc-volume')">
+      <div class="acc-icon">📊</div>
+      <div>
+        <div class="acc-title">Volume Semanal</div>
+        <div class="acc-sub">Séries por grupo muscular</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <table class="tbl">
+        <tr><th>Músculo</th><th>Séries/semana</th></tr>
+        <tr><td>Glúteo máximo</td><td>22 séries</td></tr>
+        <tr><td>Glúteo médio</td><td>16 séries</td></tr>
+        <tr><td>Ombro lateral</td><td>18 séries</td></tr>
+        <tr><td>Posterior coxa</td><td>14 séries</td></tr>
+        <tr><td>Costas</td><td>14 séries</td></tr>
+        <tr><td>Quadríceps</td><td>13 séries</td></tr>
+        <tr><td>Bíceps</td><td>8 séries</td></tr>
+        <tr><td>Tríceps</td><td>9 séries</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== METAS ===== -->
+<div id="tab-metas" class="section">
+
+  <div class="note" style="margin-bottom:16px; border-radius:10px;">📍 Medidas de 05/06/2026 às 18h32 em fase menstrual (retenção). Atualizar após o período.</div>
+
+  <!-- PONTO ZERO -->
+  <div class="acc" id="acc-pzero">
+    <div class="acc-header" onclick="toggleAcc('acc-pzero')">
+      <div class="acc-icon">📌</div>
+      <div>
+        <div class="acc-title">Ponto Zero</div>
+        <div class="acc-sub">Medidas iniciais — Jun/2026</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="goals-grid">
+        <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">66kg</div></div>
+        <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">86cm</div></div>
+        <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">102cm</div></div>
+        <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">93cm</div></div>
+        <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">57cm</div></div>
+        <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">28cm</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- META 30 DIAS -->
+  <div class="acc" id="acc-meta30">
+    <div class="acc-header" onclick="toggleAcc('acc-meta30')">
+      <div class="acc-icon">🎯</div>
+      <div>
+        <div class="acc-title">Meta 30 dias</div>
+        <div class="acc-sub">Jul/2026</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="goals-grid">
+        <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">64-65kg</div><div class="goal-target">↓ 1-2kg</div></div>
+        <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">83-84cm</div><div class="goal-target">↓ 2-3cm</div></div>
+        <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">102-103cm</div><div class="goal-target">mantém / ↑</div></div>
+        <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">89-91cm</div><div class="goal-target">↓ 2-4cm</div></div>
+        <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">57-58cm</div><div class="goal-target">mantém / ↑</div></div>
+        <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">27-28cm</div><div class="goal-target">define</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- META 90 DIAS -->
+  <div class="acc" id="acc-meta90">
+    <div class="acc-header" onclick="toggleAcc('acc-meta90')">
+      <div class="acc-icon">🏆</div>
+      <div>
+        <div class="acc-title">Meta 90 dias</div>
+        <div class="acc-sub">Set/2026</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="goals-grid">
+        <div class="goal"><div class="goal-measure">Peso</div><div class="goal-current">63-64kg</div><div class="goal-target">↓ 2-3kg</div></div>
+        <div class="goal"><div class="goal-measure">Cintura</div><div class="goal-current">80-82cm</div><div class="goal-target">↓ 4-6cm</div></div>
+        <div class="goal"><div class="goal-measure">Quadril</div><div class="goal-current">103-105cm</div><div class="goal-target">↑ glúteo</div></div>
+        <div class="goal"><div class="goal-measure">Abdômen</div><div class="goal-current">86-88cm</div><div class="goal-target">↓ 5-7cm</div></div>
+        <div class="goal"><div class="goal-measure">Coxa D.</div><div class="goal-current">58-60cm</div><div class="goal-target">↑ massa</div></div>
+        <div class="goal"><div class="goal-measure">Braço D.</div><div class="goal-current">27-28cm</div><div class="goal-target">definido</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECK-IN -->
+  <div class="acc" id="acc-checkin">
+    <div class="acc-header" onclick="toggleAcc('acc-checkin')">
+      <div class="acc-icon">✅</div>
+      <div>
+        <div class="acc-title">Check-in Semanal</div>
+        <div class="acc-sub">Toda Sexta em Jejum</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="info-block">
+        <div class="info-row"><span class="info-row-icon">⚖️</span>Peso</div>
+        <div class="info-row"><span class="info-row-icon">📸</span>Foto frente, lado e costas — mesma roupa e luz</div>
+        <div class="info-row"><span class="info-row-icon">💬</span>Como está se sentindo — energia, sono, libido, humor</div>
+        <div class="info-row"><span class="info-row-icon">📏</span>Medidas a cada 2 semanas</div>
+        <div class="info-row"><span class="info-row-icon">🔄</span>Revisão completa do plano a cada 4 semanas</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== GUIAS ===== -->
+<div id="tab-guias" class="section">
+
+  <!-- SUBSTITUIÇÕES -->
+  <div class="acc" id="acc-subst">
+    <div class="acc-header" onclick="toggleAcc('acc-subst')">
+      <div class="acc-icon">🔄</div>
+      <div>
+        <div class="acc-title">Substituições Alimentares</div>
+        <div class="acc-sub">Regra de ouro + Calculadora</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px; padding-left:0; padding-right:0;">
+      <div class="alert" style="border-radius:10px; margin:0 0 14px 0;">⚡ Proteína substitui proteína. Carbo substitui carbo. Gordura substitui gordura. NUNCA troca entre grupos.</div>
+
+      <!-- CALCULADORA -->
+      <div class="calc-wrap" style="margin-bottom:14px;">
+        <div class="calc-title">🧮 Calculadora de Substituição</div>
+        <div class="calc-note" style="font-size:13px; color:var(--text3); margin-bottom:14px;">Conversão por equivalência de proteína (grupo proteína), carboidrato (grupo carbo) ou gordura total (grupo gordura) — valores por 100g TACO/USDA.</div>
+        <div class="calc-group">
+          <div class="calc-label">Grupo alimentar</div>
+          <select class="calc-select" id="calc-grupo" onchange="resetCalc()">
+            <option value="">Selecione o grupo...</option>
+            <option value="carbo">Carboidratos</option>
+            <option value="proteina">Proteínas</option>
+            <option value="gordura">Gorduras</option>
+            <option value="frutas">Frutas</option>
+            <option value="verduras">Verduras e Legumes</option>
+            <option value="laticinios">Leite e Derivados</option>
+            <option value="fibras">Fibras</option>
+          </select>
+        </div>
+        <div class="calc-group" id="calc-food-wrap" style="display:none;">
+          <div class="calc-label">Alimento de origem</div>
+          <select class="calc-select" id="calc-alimento" onchange="showQty()"></select>
+        </div>
+        <div class="calc-group" id="calc-qty-wrap" style="display:none;">
+          <div class="calc-label">Quantidade em gramas</div>
+          <input type="number" class="calc-qty" id="calc-quantidade" placeholder="Ex: 100" min="1" step="1">
+        </div>
+        <div id="calc-btn-wrap" style="display:none;">
+          <button class="calc-btn" onclick="calcSubst()">VER SUBSTITUIÇÕES</button>
+        </div>
+        <div class="calc-results" id="calc-results"></div>
+      </div>
+
+      <!-- CARBOIDRATOS accordion -->
+      <div class="acc" id="acc-sg-carbo" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-carbo')">
+          <div class="acc-icon">🍚</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Carboidratos</div>
+            <div class="acc-sub">Arroz, batata, pão, frutas e mais</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Carbo/100g</th></tr>
+            <tr><td>Arroz branco cozido</td><td>28g</td></tr>
+            <tr><td>Arroz integral cozido</td><td>23g</td></tr>
+            <tr><td>Batata doce cozida</td><td>18g</td></tr>
+            <tr><td>Batata inglesa cozida</td><td>15g</td></tr>
+            <tr><td>Macarrão cozido</td><td>25g</td></tr>
+            <tr><td>Mandioca cozida</td><td>30g</td></tr>
+            <tr><td>Pão integral</td><td>41g</td></tr>
+            <tr><td>Tapioca (goma)</td><td>85g</td></tr>
+            <tr><td>Aveia em flocos</td><td>66g</td></tr>
+            <tr><td>Biscoito de arroz</td><td>82g</td></tr>
+            <tr><td>Banana prata</td><td>23g</td></tr>
+            <tr><td>Maçã</td><td>15g</td></tr>
+            <tr><td>Pera</td><td>13g</td></tr>
+            <tr><td>Laranja</td><td>12g</td></tr>
+            <tr><td>Uva</td><td>17g</td></tr>
+            <tr><td>Mamão papaia</td><td>10g</td></tr>
+            <tr><td>Manga</td><td>15g</td></tr>
+            <tr><td>Melancia</td><td>8g</td></tr>
+            <tr><td>Morango</td><td>8g</td></tr>
+            <tr><td>Cuscuz de milho cozido</td><td>22g</td></tr>
+            <tr><td>Inhame cozido</td><td>24g</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- PROTEÍNAS accordion -->
+      <div class="acc" id="acc-sg-prot" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-prot')">
+          <div class="acc-icon">🍗</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Proteínas</div>
+            <div class="acc-sub">Carnes, ovos, laticínios e whey</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Proteína/100g</th></tr>
+            <tr><td>Frango peito grelhado</td><td>32g</td></tr>
+            <tr><td>Tilápia grelhada</td><td>26g</td></tr>
+            <tr><td>Atum em água (escorrido)</td><td>29g</td></tr>
+            <tr><td>Patinho grelhado</td><td>30g</td></tr>
+            <tr><td>Carne moída magra grelhada</td><td>26g</td></tr>
+            <tr><td>Fígado bovino grelhado</td><td>29g</td></tr>
+            <tr><td>Sardinha em água</td><td>25g</td></tr>
+            <tr><td>Salmão grelhado</td><td>25g</td></tr>
+            <tr><td>Sobrecoxa sem pele grelhada</td><td>27g</td></tr>
+            <tr><td>Ovo inteiro cozido</td><td>13g</td></tr>
+            <tr><td>Clara de ovo cozida</td><td>11g</td></tr>
+            <tr><td>Whey protein (pó)</td><td>80g</td></tr>
+            <tr><td>Albumina (pó)</td><td>75g</td></tr>
+            <tr><td>Cottage</td><td>12g</td></tr>
+            <tr><td>Iogurte grego desnatado</td><td>10g</td></tr>
+            <tr><td>Queijo branco (minas frescal)</td><td>17g</td></tr>
+            <tr><td>Peito de peru fatiado</td><td>18g</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- GORDURAS accordion -->
+      <div class="acc" id="acc-sg-gord" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-gord')">
+          <div class="acc-icon">🥑</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Gorduras</div>
+            <div class="acc-sub">Azeite, oleaginosas, abacate</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Gordura/100g</th></tr>
+            <tr><td>Azeite extravirgem</td><td>100g</td></tr>
+            <tr><td>Abacate</td><td>15g</td></tr>
+            <tr><td>Pasta de amendoim integral</td><td>50g</td></tr>
+            <tr><td>Amêndoas</td><td>50g</td></tr>
+            <tr><td>Castanha-do-pará</td><td>66g</td></tr>
+            <tr><td>Nozes</td><td>65g</td></tr>
+            <tr><td>Amendoim torrado</td><td>46g</td></tr>
+            <tr><td>Chia</td><td>31g</td></tr>
+            <tr><td>Linhaça</td><td>42g</td></tr>
+            <tr><td>Coco seco ralado</td><td>62g</td></tr>
+            <tr><td>Azeite de coco</td><td>100g</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- FRUTAS accordion -->
+      <div class="acc" id="acc-sg-frutas" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-frutas')">
+          <div class="acc-icon">🍎</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Frutas</div>
+            <div class="acc-sub">Conversão por carboidrato (açúcar natural)</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Carbo/100g</th></tr>
+            <tr><td>Banana prata</td><td>23g</td></tr>
+            <tr><td>Maçã</td><td>15g</td></tr>
+            <tr><td>Pera</td><td>13g</td></tr>
+            <tr><td>Laranja</td><td>12g</td></tr>
+            <tr><td>Uva</td><td>17g</td></tr>
+            <tr><td>Mamão papaia</td><td>10g</td></tr>
+            <tr><td>Manga</td><td>15g</td></tr>
+            <tr><td>Melancia</td><td>8g</td></tr>
+            <tr><td>Morango</td><td>8g</td></tr>
+            <tr><td>Abacaxi</td><td>13g</td></tr>
+            <tr><td>Kiwi</td><td>15g</td></tr>
+            <tr><td>Mirtilo (blueberry)</td><td>14g</td></tr>
+            <tr><td>Framboesa</td><td>12g</td></tr>
+            <tr><td>Maracujá (polpa)</td><td>13g</td></tr>
+            <tr><td>Goiaba</td><td>14g</td></tr>
+            <tr><td>Caju</td><td>11g</td></tr>
+            <tr><td>Pêssego</td><td>10g</td></tr>
+            <tr><td>Ameixa fresca</td><td>11g</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- VERDURAS E LEGUMES accordion -->
+      <div class="acc" id="acc-sg-verd" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-verd')">
+          <div class="acc-icon">🥦</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Verduras e Legumes</div>
+            <div class="acc-sub">Conversão por calorias (troca livre)</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <div class="note" style="margin-bottom:12px;">🥦 Verduras e legumes têm troca muito flexível — a conversão é por kcal, mas na prática podem ser trocados livremente sem impacto significativo no plano.</div>
+          <table class="tbl">
+            <tr><th>Alimento</th><th>kcal/100g</th></tr>
+            <tr><td>Abobrinha cozida</td><td>15 kcal</td></tr>
+            <tr><td>Brócolis cozido</td><td>25 kcal</td></tr>
+            <tr><td>Cenoura crua</td><td>35 kcal</td></tr>
+            <tr><td>Pepino cru</td><td>13 kcal</td></tr>
+            <tr><td>Tomate cru</td><td>15 kcal</td></tr>
+            <tr><td>Alface</td><td>13 kcal</td></tr>
+            <tr><td>Espinafre cozido</td><td>20 kcal</td></tr>
+            <tr><td>Couve-flor cozida</td><td>22 kcal</td></tr>
+            <tr><td>Chuchu cozido</td><td>19 kcal</td></tr>
+            <tr><td>Beterraba cozida</td><td>44 kcal</td></tr>
+            <tr><td>Berinjela cozida</td><td>24 kcal</td></tr>
+            <tr><td>Quiabo cozido</td><td>33 kcal</td></tr>
+            <tr><td>Vagem cozida</td><td>28 kcal</td></tr>
+            <tr><td>Repolho cru</td><td>25 kcal</td></tr>
+            <tr><td>Couve cozida</td><td>26 kcal</td></tr>
+            <tr><td>Pimentão cru</td><td>27 kcal</td></tr>
+            <tr><td>Ervilha cozida</td><td>69 kcal</td></tr>
+            <tr><td>Milho verde cozido</td><td>86 kcal</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- LEITE E DERIVADOS accordion -->
+      <div class="acc" id="acc-sg-latic" style="margin:0 0 8px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-latic')">
+          <div class="acc-icon">🥛</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Leite e Derivados</div>
+            <div class="acc-sub">Conversão por proteína</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Proteína/100g</th></tr>
+            <tr><td>Leite desnatado</td><td>3,4g</td></tr>
+            <tr><td>Leite semidesnatado</td><td>3,3g</td></tr>
+            <tr><td>Leite sem lactose desnatado</td><td>3,4g</td></tr>
+            <tr><td>Leite de aveia</td><td>1,0g</td></tr>
+            <tr><td>Leite de amêndoas s/ açúcar</td><td>1,1g</td></tr>
+            <tr><td>Leite de coco</td><td>2,3g</td></tr>
+            <tr><td>Iogurte natural desnatado</td><td>5,0g</td></tr>
+            <tr><td>Iogurte grego desnatado</td><td>10,0g</td></tr>
+            <tr><td>Cottage</td><td>12,0g</td></tr>
+            <tr><td>Ricota</td><td>11,0g</td></tr>
+            <tr><td>Queijo minas frescal</td><td>17,0g</td></tr>
+            <tr><td>Queijo branco light</td><td>19,0g</td></tr>
+            <tr><td>Whey isolado (referência)</td><td>90,0g</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- FIBRAS accordion -->
+      <div class="acc" id="acc-sg-fibras" style="margin:0 0 4px 0; border-radius:12px; background:var(--bg3);">
+        <div class="acc-header" onclick="toggleAcc('acc-sg-fibras')">
+          <div class="acc-icon">🌾</div>
+          <div>
+            <div class="acc-title" style="font-size:16px;">Fibras</div>
+            <div class="acc-sub">Conversão por grama de fibra total</div>
+          </div>
+          <div class="acc-chevron">▼</div>
+        </div>
+        <div class="acc-body" style="padding-top:12px;">
+          <table class="tbl">
+            <tr><th>Alimento</th><th>Fibra/100g</th></tr>
+            <tr><td>Chia</td><td>34g</td></tr>
+            <tr><td>Linhaça</td><td>27g</td></tr>
+            <tr><td>Aveia em flocos</td><td>10g</td></tr>
+            <tr><td>Farelo de aveia</td><td>15g</td></tr>
+            <tr><td>Psyllium</td><td>70g</td></tr>
+            <tr><td>Farinha de amêndoas</td><td>11g</td></tr>
+            <tr><td>Lentilha cozida</td><td>8g</td></tr>
+            <tr><td>Grão-de-bico cozido</td><td>8g</td></tr>
+            <tr><td>Feijão cozido</td><td>6g</td></tr>
+            <tr><td>Brócolis cozido</td><td>3g</td></tr>
+            <tr><td>Couve-flor cozida</td><td>2g</td></tr>
+            <tr><td>Cenoura crua</td><td>3g</td></tr>
+            <tr><td>Maçã com casca</td><td>2g</td></tr>
+            <tr><td>Pera com casca</td><td>3g</td></tr>
+            <tr><td>Arroz integral cozido</td><td>2g</td></tr>
+            <tr><td>Pão integral</td><td>6g</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEITE -->
+  <div class="acc" id="acc-leite">
+    <div class="acc-header" onclick="toggleAcc('acc-leite')">
+      <div class="acc-icon">🥛</div>
+      <div>
+        <div class="acc-title">Leite — Sensibilidade</div>
+        <div class="acc-sub">Opções de substituição</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="info-block">
+        <div class="info-row"><span class="info-row-icon">🥛</span><strong>Sem lactose</strong> — melhor substituto 1:1</div>
+        <div class="info-row"><span class="info-row-icon">🌾</span><strong>Aveia</strong> — cremoso, bom para shakes. Tem carbo.</div>
+        <div class="info-row"><span class="info-row-icon">🌰</span><strong>Amêndoas sem açúcar</strong> — leve, baixo carbo</div>
+        <div class="info-row"><span class="info-row-icon">🥥</span><strong>Coco</strong> — mais gorduroso, usar com moderação</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALBUMINA -->
+  <div class="acc" id="acc-albumina">
+    <div class="acc-header" onclick="toggleAcc('acc-albumina')">
+      <div class="acc-icon">🥚</div>
+      <div>
+        <div class="acc-title">Albumina — Como Preparar</div>
+        <div class="acc-sub">3 formas práticas</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="info-block">
+        <div class="info-row"><span class="info-row-icon">🥤</span><strong>Shake gelado:</strong> albumina + leite vegetal + banana congelada + canela — liquidificador</div>
+        <div class="info-row"><span class="info-row-icon">🍮</span><strong>Pudim proteico:</strong> albumina + leite + adoçante + baunilha — geladeira 1h</div>
+        <div class="info-row"><span class="info-row-icon">🥞</span><strong>Panqueca:</strong> albumina + 1 ovo + 1 col. aveia + canela — frigideira antiaderente</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGRAS -->
+  <div class="acc" id="acc-regras">
+    <div class="acc-header" onclick="toggleAcc('acc-regras')">
+      <div class="acc-icon">⚡</div>
+      <div>
+        <div class="acc-title">Regras Invioláveis</div>
+        <div class="acc-sub">Siga sempre, sem exceção</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="info-block">
+        <div class="info-row"><span class="info-row-icon">⚡</span><strong>PRÉ-TREINO SEM GORDURA</strong> — pesa no estômago e prejudica performance</div>
+        <div class="info-row"><span class="info-row-icon">⏱</span>Não beber durante as refeições — esperar 30 min após comer</div>
+        <div class="info-row"><span class="info-row-icon">🚫</span>Ferro e cálcio sempre separados — mínimo 2 horas</div>
+        <div class="info-row"><span class="info-row-icon">🥩</span>Mastigar bem especialmente carnes</div>
+        <div class="info-row"><span class="info-row-icon">💧</span>Água mínimo 2L/dia — nunca durante as refeições</div>
+        <div class="info-row"><span class="info-row-icon">📏</span>Volume máximo por refeição: 200-230g</div>
+        <div class="info-row"><span class="info-row-icon">🌙</span>ZMA e Melatonina todos os dias — mesmo sem a ceia</div>
+        <div class="info-row"><span class="info-row-icon">🏃</span>Dias sem corrida: reduzir carbo do jantar para 50-60g</div>
+        <div class="info-row"><span class="info-row-icon">🥦</span>Vegetais: troca livre à vontade — sem restrição</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== HORÁRIOS ===== -->
+<div id="tab-horarios" class="section">
+
+  <!-- SEG/QUA/QUI -->
+  <div class="acc" id="acc-h1">
+    <div class="acc-header" onclick="toggleAcc('acc-h1')">
+      <div class="acc-icon">🏋️</div>
+      <div>
+        <div class="acc-title">Seg / Qua / Qui</div>
+        <div class="acc-sub">Dias de musculação + alongamento</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="schedule">
+        <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+        <div class="sch-item"><div class="sch-time">05:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 1</strong> — Pré-treino leve</div></div>
+        <div class="sch-item"><div class="sch-time">06:00</div><div class="sch-dot hi"></div><div class="sch-event hi">🏋️ Treino musculação</div></div>
+        <div class="sch-item"><div class="sch-time">07:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 2</strong> — Pós-treino + Suplementação</div></div>
+        <div class="sch-item"><div class="sch-time">10:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 3</strong> — Lanche manhã</div></div>
+        <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 4</strong> — Almoço + Cálcio 1ª dose</div></div>
+        <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 5</strong> — Lanche tarde</div></div>
+        <div class="sch-item"><div class="sch-time">17:00</div><div class="sch-dot gold"></div><div class="sch-event" style="color:var(--gold); font-weight:600;">🧘 Alongamento 20 min</div></div>
+        <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 6</strong> — Jantar</div></div>
+        <div class="sch-item"><div class="sch-time">18:50</div><div class="sch-dot"></div><div class="sch-event">Cálcio 2ª dose (50min após jantar)</div></div>
+        <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 7</strong> — Ceia leve (opcional)</div></div>
+        <div class="sch-item"><div class="sch-time">21:30</div><div class="sch-dot hi"></div><div class="sch-event">ZMA + Melatonina</div></div>
+        <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TER/SEX -->
+  <div class="acc" id="acc-h2">
+    <div class="acc-header" onclick="toggleAcc('acc-h2')">
+      <div class="acc-icon">🏃</div>
+      <div>
+        <div class="acc-title">Ter / Sex</div>
+        <div class="acc-sub">Musculação + corrida tarde</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="schedule">
+        <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+        <div class="sch-item"><div class="sch-time">05:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 1</strong> — Pré-treino leve</div></div>
+        <div class="sch-item"><div class="sch-time">06:00</div><div class="sch-dot hi"></div><div class="sch-event hi">🏋️ Treino musculação</div></div>
+        <div class="sch-item"><div class="sch-time">07:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 2</strong> — Pós-treino + Suplementação</div></div>
+        <div class="sch-item"><div class="sch-time">10:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 3</strong> — Lanche manhã</div></div>
+        <div class="sch-item"><div class="sch-time">12:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 4</strong> — Almoço + Cálcio 1ª dose</div></div>
+        <div class="sch-item"><div class="sch-time">15:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 5</strong> — Lanche tarde</div></div>
+        <div class="sch-item"><div class="sch-time">17:00</div><div class="sch-dot red"></div><div class="sch-event red">🏃 Corrida 30-35 min</div></div>
+        <div class="sch-item"><div class="sch-time">17:35</div><div class="sch-dot gold"></div><div class="sch-event" style="color:var(--gold); font-weight:600;">🧘 Alongamento 20 min (logo após corrida)</div></div>
+        <div class="sch-item"><div class="sch-time">18:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 6</strong> — Jantar + Pós-corrida</div></div>
+        <div class="sch-item"><div class="sch-time">18:50</div><div class="sch-dot"></div><div class="sch-event">Cálcio 2ª dose (50min após jantar)</div></div>
+        <div class="sch-item"><div class="sch-time">21:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Ceia leve</strong> (opcional)</div></div>
+        <div class="sch-item"><div class="sch-time">21:30</div><div class="sch-dot hi"></div><div class="sch-event">ZMA + Melatonina</div></div>
+        <div class="sch-item"><div class="sch-time">22:00</div><div class="sch-dot"></div><div class="sch-event">Dormir 🌙</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SÁBADO -->
+  <div class="acc" id="acc-h3">
+    <div class="acc-header" onclick="toggleAcc('acc-h3')">
+      <div class="acc-icon">☀️</div>
+      <div>
+        <div class="acc-title">Sábado</div>
+        <div class="acc-sub">Corrida longa + descanso</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="schedule">
+        <div class="sch-item"><div class="sch-time">04:30</div><div class="sch-dot"></div><div class="sch-event">Acordar</div></div>
+        <div class="sch-item"><div class="sch-time">06:30</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 1</strong> — Pré-corrida leve</div></div>
+        <div class="sch-item"><div class="sch-time">07:00</div><div class="sch-dot red"></div><div class="sch-event red">🏃 Corrida 35-40 min</div></div>
+        <div class="sch-item"><div class="sch-time">07:45</div><div class="sch-dot gold"></div><div class="sch-event" style="color:var(--gold); font-weight:600;">🧘 Alongamento 20 min</div></div>
+        <div class="sch-item"><div class="sch-time">08:15</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 2</strong> — Pós-corrida + Suplementação</div></div>
+        <div class="sch-item"><div class="sch-time">11:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 3</strong> — Lanche</div></div>
+        <div class="sch-item"><div class="sch-time">13:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 4</strong> — Almoço + Cálcio 1ª dose</div></div>
+        <div class="sch-item"><div class="sch-time">16:00</div><div class="sch-dot"></div><div class="sch-event"><strong>Refeição 5</strong> — Lanche tarde</div></div>
+        <div class="sch-item"><div class="sch-time">19:00</div><div class="sch-dot hi"></div><div class="sch-event"><strong>Refeição 6</strong> — Jantar + Cálcio 2ª dose 50min depois</div></div>
+        <div class="sch-item"><div class="sch-time">21:30</div><div class="sch-dot hi"></div><div class="sch-event">ZMA + Melatonina</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOMINGO -->
+  <div class="acc" id="acc-h4">
+    <div class="acc-header" onclick="toggleAcc('acc-h4')">
+      <div class="acc-icon">😴</div>
+      <div>
+        <div class="acc-title">Domingo</div>
+        <div class="acc-sub">Off — descanso completo</div>
+      </div>
+      <div class="acc-chevron">▼</div>
+    </div>
+    <div class="acc-body" style="padding-top:14px;">
+      <div class="info-block">
+        <div class="info-row"><span class="info-row-icon">😴</span>Descanso completo — sem pressão de horário</div>
+        <div class="info-row"><span class="info-row-icon">🍽</span>Mesmas refeições — porções de carbo menores (~130g no dia)</div>
+        <div class="info-row"><span class="info-row-icon">💊</span>Suplementação normal — ZMA + Melatonina às 21h30</div>
+        <div class="info-row"><span class="info-row-icon">🏃</span>Corrida leve opcional — se quiser</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MODAL EXERCÍCIO ===== -->
+<div class="modal-overlay" id="ex-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-name">—</div>
+      <div class="modal-close" onclick="closeModalDirect()">✕</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Foco</div>
+      <div class="modal-content" id="modal-focus">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Volume</div>
+      <div class="modal-content" id="modal-volume">—</div>
+    </div>
+    <div class="modal-section">
+      <div class="modal-label">Séries detalhadas</div>
+      <div id="modal-sets"></div>
+    </div>
+    <div class="modal-section" id="modal-tip-wrap">
+      <div class="modal-label">💡 Dica</div>
+      <div class="modal-content" id="modal-tip">—</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== TABS =====
+function showTab(name, el) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  el.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ===== LEGACY CARD TOGGLE (dieta) =====
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+
+// ===== ACCORDION =====
+function toggleAcc(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+}
+
+// ===== MODAL =====
+function openModal(name, focus, volume, sets, tip) {
+  document.getElementById('modal-name').textContent = name;
+  document.getElementById('modal-focus').textContent = focus;
+  document.getElementById('modal-volume').textContent = volume;
+
+  // parse sets
+  const setsEl = document.getElementById('modal-sets');
+  setsEl.innerHTML = '';
+  sets.split('|').forEach(s => {
+    const t = s.trim();
+    let cls = 'modal-tag';
+    if (t.toLowerCase().startsWith('aquec')) cls += ' warm';
+    else if (t.toLowerCase().startsWith('pré')) cls += ' pre';
+    else cls += ' main';
+    const span = document.createElement('span');
+    span.className = cls;
+    span.textContent = t;
+    setsEl.appendChild(span);
+  });
+
+  if (tip && tip.trim()) {
+    document.getElementById('modal-tip').textContent = tip;
+    document.getElementById('modal-tip-wrap').style.display = '';
+  } else {
+    document.getElementById('modal-tip-wrap').style.display = 'none';
+  }
+
+  document.getElementById('ex-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target.id === 'ex-modal') closeModalDirect();
+}
+function closeModalDirect() {
+  document.getElementById('ex-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ===== SAVE LOADS (localStorage fallback to memory) =====
+const loads = {};
+function saveLoad(id) {
+  const input = document.getElementById('carga-' + id);
+  if (!input) return;
+  const val = input.value.trim();
+  if (!val) return;
+  loads[id] = val;
+  try { localStorage.setItem('protocolo_load_' + id, val); } catch(e){}
+  const saved = document.getElementById('saved-' + id);
+  if (saved) { saved.style.display = 'block'; setTimeout(() => { saved.style.display = 'none'; }, 2000); }
+}
+function markSaved(id) {
+  const input = document.getElementById('carga-' + id);
+  if (!input) return;
+  const val = input.value.trim();
+  loads[id] = val;
+  try { localStorage.setItem('protocolo_load_' + id, val); } catch(e){}
+}
+
+// Load saved values on init
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('protocolo_load_')) {
+        const id = key.replace('protocolo_load_', '');
+        const val = localStorage.getItem(key);
+        const input = document.getElementById('carga-' + id);
+        if (input && val) input.value = val;
+      }
+    }
+  } catch(e) {}
+});
+
+// ===== CALCULADORA DE SUBSTITUIÇÃO =====
+// Fonte: TACO (Tabela Brasileira de Composição de Alimentos) + USDA FoodData Central
+// Cada grupo tem sua métrica de conversão mais relevante clinicamente:
+//   carbo     → g de carboidrato/100g
+//   proteina  → g de proteína/100g
+//   gordura   → g de gordura total/100g
+//   frutas    → g de carboidrato/100g (açúcar natural)
+//   verduras  → kcal/100g (macros muito baixos; troca pela energia)
+//   laticinios→ g de proteína/100g
+//   fibras    → g de fibra total/100g
+
+const nutritionDB = {
+  carbo: {
+    label: 'carboidrato',
+    items: [
+      ['Arroz branco cozido',        28],
+      ['Arroz integral cozido',      23],
+      ['Batata doce cozida',         18],
+      ['Batata inglesa cozida',      15],
+      ['Macarrão cozido',            25],
+      ['Mandioca cozida',            30],
+      ['Pão integral',               41],
+      ['Tapioca (goma seca)',        85],
+      ['Aveia em flocos',            66],
+      ['Biscoito de arroz',          82],
+      ['Cuscuz de milho cozido',     22],
+      ['Inhame cozido',              24],
+      ['Cará cozido',                25],
+      ['Polenta cozida',             16],
+      ['Quinoa cozida',              21],
+    ]
+  },
+  proteina: {
+    label: 'proteína',
+    items: [
+      ['Frango peito grelhado',       32],
+      ['Tilápia grelhada',            26],
+      ['Atum em água escorrido',      29],
+      ['Patinho grelhado',            30],
+      ['Carne moída magra grelhada',  26],
+      ['Fígado bovino grelhado',      29],
+      ['Sardinha em água',            25],
+      ['Salmão grelhado',             25],
+      ['Sobrecoxa s/ pele grelhada',  27],
+      ['Ovo inteiro cozido',          13],
+      ['Clara de ovo cozida',         11],
+      ['Whey protein (pó)',           80],
+      ['Albumina (pó)',               75],
+      ['Cottage',                     12],
+      ['Iogurte grego desnatado',     10],
+      ['Queijo minas frescal',        17],
+      ['Peito de peru fatiado',       18],
+      ['Atum fresco grelhado',        30],
+      ['Lula grelhada',               18],
+      ['Camarão cozido',              20],
+    ]
+  },
+  gordura: {
+    label: 'gordura',
+    items: [
+      ['Azeite extravirgem',         100],
+      ['Abacate',                     15],
+      ['Pasta de amendoim integral',  50],
+      ['Amêndoas',                    50],
+      ['Castanha-do-pará',            66],
+      ['Nozes',                       65],
+      ['Amendoim torrado',            46],
+      ['Chia',                        31],
+      ['Linhaça',                     42],
+      ['Coco seco ralado',            62],
+      ['Azeite de coco',             100],
+      ['Tahine (pasta de gergelim)',  54],
+      ['Gergelim',                    48],
+      ['Macadâmia',                   76],
+      ['Pistache',                    45],
+    ]
+  },
+  frutas: {
+    label: 'carboidrato (fruta)',
+    items: [
+      ['Banana prata',               23],
+      ['Maçã',                       15],
+      ['Pera',                       13],
+      ['Laranja',                    12],
+      ['Uva',                        17],
+      ['Mamão papaia',               10],
+      ['Manga',                      15],
+      ['Melancia',                    8],
+      ['Morango',                     8],
+      ['Abacaxi',                    13],
+      ['Kiwi',                       15],
+      ['Mirtilo (blueberry)',        14],
+      ['Framboesa',                  12],
+      ['Maracujá (polpa)',           13],
+      ['Goiaba',                     14],
+      ['Caju',                       11],
+      ['Pêssego',                    10],
+      ['Ameixa fresca',              11],
+    ]
+  },
+  verduras: {
+    label: 'kcal',
+    items: [
+      ['Abobrinha cozida',           15],
+      ['Brócolis cozido',            25],
+      ['Cenoura crua',               35],
+      ['Pepino cru',                 13],
+      ['Tomate cru',                 15],
+      ['Alface',                     13],
+      ['Espinafre cozido',           20],
+      ['Couve-flor cozida',          22],
+      ['Chuchu cozido',              19],
+      ['Beterraba cozida',           44],
+      ['Berinjela cozida',           24],
+      ['Quiabo cozido',              33],
+      ['Vagem cozida',               28],
+      ['Repolho cru',                25],
+      ['Couve cozida',               26],
+      ['Pimentão cru',               27],
+      ['Ervilha cozida',             69],
+      ['Milho verde cozido',         86],
+    ]
+  },
+  laticinios: {
+    label: 'proteína',
+    items: [
+      ['Leite desnatado',             3.4],
+      ['Leite semidesnatado',         3.3],
+      ['Leite sem lactose desnatado', 3.4],
+      ['Leite de aveia',              1.0],
+      ['Leite de amêndoas s/ açúcar', 1.1],
+      ['Leite de coco',               2.3],
+      ['Iogurte natural desnatado',   5.0],
+      ['Iogurte grego desnatado',    10.0],
+      ['Cottage',                    12.0],
+      ['Ricota',                     11.0],
+      ['Queijo minas frescal',       17.0],
+      ['Queijo branco light',        19.0],
+      ['Whey isolado (referência)',  90.0],
+    ]
+  },
+  fibras: {
+    label: 'fibra',
+    items: [
+      ['Psyllium',                   70],
+      ['Chia',                       34],
+      ['Linhaça',                    27],
+      ['Farelo de aveia',            15],
+      ['Aveia em flocos',            10],
+      ['Farinha de amêndoas',        11],
+      ['Pão integral',                6],
+      ['Lentilha cozida',             8],
+      ['Grão-de-bico cozido',         8],
+      ['Feijão cozido',               6],
+      ['Brócolis cozido',             3],
+      ['Cenoura crua',                3],
+      ['Pera com casca',              3],
+      ['Maçã com casca',              2],
+      ['Arroz integral cozido',       2],
+      ['Couve-flor cozida',           2],
+    ]
+  }
+};
+
+function resetCalc() {
+  const grupo = document.getElementById('calc-grupo').value;
+  const foodWrap = document.getElementById('calc-food-wrap');
+  const qtyWrap  = document.getElementById('calc-qty-wrap');
+  const btnWrap  = document.getElementById('calc-btn-wrap');
+  document.getElementById('calc-results').innerHTML = '';
+
+  if (!grupo) {
+    foodWrap.style.display = 'none';
+    qtyWrap.style.display  = 'none';
+    btnWrap.style.display  = 'none';
+    return;
+  }
+
+  const { items } = nutritionDB[grupo];
+  const sel = document.getElementById('calc-alimento');
+  sel.innerHTML = '<option value="">Selecione o alimento...</option>';
+  items.forEach(([nome], i) => {
+    const opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = nome;
+    sel.appendChild(opt);
+  });
+
+  foodWrap.style.display = '';
+  qtyWrap.style.display  = 'none';
+  btnWrap.style.display  = 'none';
+}
+
+function showQty() {
+  const idx = document.getElementById('calc-alimento').value;
+  const qtyWrap = document.getElementById('calc-qty-wrap');
+  const btnWrap = document.getElementById('calc-btn-wrap');
+  document.getElementById('calc-results').innerHTML = '';
+
+  if (idx === '') {
+    qtyWrap.style.display = 'none';
+    btnWrap.style.display = 'none';
+    return;
+  }
+
+  document.getElementById('calc-quantidade').value = 100;
+  qtyWrap.style.display = '';
+  btnWrap.style.display = '';
+}
+
+function calcSubst() {
+  const grupo = document.getElementById('calc-grupo').value;
+  const idx   = parseInt(document.getElementById('calc-alimento').value);
+  const grams = parseFloat(document.getElementById('calc-quantidade').value);
+
+  if (!grupo || isNaN(idx) || isNaN(grams) || grams <= 0) return;
+
+  const { label, items } = nutritionDB[grupo];
+  const [origemNome, origemValor] = items[idx];
+
+  // total do macro/energia de referência na porção informada
+  const refTotal = (grams * origemValor) / 100;
+
+  // unidade de exibição
+  const unidade = grupo === 'verduras' ? 'kcal' : 'g';
+
+  const resultsEl = document.getElementById('calc-results');
+  let html = `<div style="font-size:13px; color:var(--text3); margin-bottom:12px; padding:10px 12px; background:var(--bg4); border-radius:8px; line-height:1.6;">
+    <strong style="color:var(--text)">${grams}g de ${origemNome}</strong><br>
+    = <strong style="color:var(--neon)">${refTotal % 1 === 0 ? refTotal : refTotal.toFixed(1)} ${unidade}</strong> de ${label}
+  </div>`;
+
+  items.forEach(([nome, valor], i) => {
+    if (i === idx) return;
+    if (valor <= 0) return;
+    const qtd = (refTotal / valor) * 100;
+    const qtdDisplay = qtd < 10 ? qtd.toFixed(1) : Math.round(qtd);
+    html += `<div class="calc-result-item">
+      <div class="calc-result-name">${nome}</div>
+      <div class="calc-result-qty">${qtdDisplay}g</div>
+    </div>`;
+  });
+
+  resultsEl.innerHTML = html;
+}
+</script>
+</body>
+</html>
